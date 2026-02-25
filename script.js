@@ -39,8 +39,20 @@ document.addEventListener("keydown",(element) => {
     if(key >= "1" && key <= "9"){
         const row = +selectedCell.dataset.row;
         const col = +selectedCell.dataset.col;
-        board[row][col] = Number(key);
-        selectedCell.textContent = key;
+        const previous = board[row][col];
+        board[row][col] = 0;
+        const num = Number(key);
+        if(isValid(board, row, col, num)){
+            board[row][col] = num;
+            selectedCell.textContent = num;
+        }else{
+            board[row][col] = previous;
+            selectedCell.classList.add("invalid");
+            const cell = selectedCell;
+            setTimeout(() => {
+                cell.classList.remove("invalid");
+            }, 300);
+        }
     }else if(key === "Backspace" || key === "Delete"){
         const row = +selectedCell.dataset.row;
         const col = +selectedCell.dataset.col;
@@ -50,4 +62,23 @@ document.addEventListener("keydown",(element) => {
     }
 });
 
+function isValid(board, row, col, num){
+    for(let i = 0; i < 9; i++){
+        if(board[row][i] === num || board[i][col] === num){
+            return false;
+        }
+    }
+    let startRow = Math.floor(row/3)*3;
+    let startCol = Math.floor(col/3)*3;
+
+    for(let i = startRow; i<= startRow+2; i++){
+        for(let j = startCol; j <= startCol+2; j++){
+            if(board[i][j] === num){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+let copy = board.map(row => [...row]);
 render();
