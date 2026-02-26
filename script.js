@@ -3,17 +3,17 @@ let board = Array.from({length : 9}, () => Array(9).fill(0));
 function render() {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-            const cube = document.createElement("div");
-            cube.classList.add("cube");
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
 
-            cube.dataset.row = row;
-            cube.dataset.col = col;
+            cell.dataset.row = row;
+            cell.dataset.col = col;
 
-            outerGrid.appendChild(cube);
-            if (col % 3 === 0) cube.classList.add("left-border");
-            if (col === 8) cube.classList.add("right-border");
-            if (row % 3 === 0) cube.classList.add("top-border");
-            if (row === 8) cube.classList.add("bottom-border");
+            outerGrid.appendChild(cell);
+            if (col % 3 === 0) cell.classList.add("left-border");
+            if (col === 8) cell.classList.add("right-border");
+            if (row % 3 === 0) cell.classList.add("top-border");
+            if (row === 8) cell.classList.add("bottom-border");
         }
     }
 }
@@ -21,7 +21,7 @@ function render() {
 
 let selectedCell = null;
 outerGrid.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("cube")) return;
+    if (!e.target.classList.contains("cell")) return;
 
     if (selectedCell) {
         selectedCell.classList.remove("selected");

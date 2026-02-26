@@ -35,7 +35,7 @@ main {
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(9, 1fr);
 }
-.cube {
+.cell {
   outline: 1px dashed rgb(189, 189, 189);
   height: calc((85vh / 3) / 3);
   width: calc((85vh / 3) / 3);
