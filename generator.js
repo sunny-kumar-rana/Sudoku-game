@@ -1,5 +1,3 @@
-
-
 function generator(dificulty){
     let board = Array.from({length : 9}, ()=> Array(9).fill(0));
     solver(board);
@@ -64,7 +62,7 @@ function countSolutions(board) {
         }
         count++;
     }
-    
+
     backtrack();
     return count;
 }
