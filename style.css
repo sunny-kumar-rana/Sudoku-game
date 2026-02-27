@@ -1,5 +1,3 @@
-/* :root {
-} */
 * {
   margin: 0;
   padding: 0;
@@ -61,4 +59,7 @@ main {
 }
 .invalid {
   background-color: rgb(185, 92, 92);
+}
+.fixed {
+  color: #79ccf2;
 }

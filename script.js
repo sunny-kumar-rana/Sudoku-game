@@ -1,6 +1,6 @@
 const outerGrid = document.querySelector(".outer-grid");
 let board = Array.from({length : 9}, () => Array(9).fill(0));
-function render() {
+function render(board) {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const cell = document.createElement("div");
@@ -8,8 +8,11 @@ function render() {
 
             cell.dataset.row = row;
             cell.dataset.col = col;
-
             outerGrid.appendChild(cell);
+            if(board[row][col] !== 0){
+                cell.classList.add("fixed");
+                cell.textContent = board[row][col];
+            }
             if (col % 3 === 0) cell.classList.add("left-border");
             if (col === 8) cell.classList.add("right-border");
             if (row % 3 === 0) cell.classList.add("top-border");
@@ -21,8 +24,12 @@ function render() {
 
 let selectedCell = null;
 outerGrid.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("cell")) return;
-
+    if (!e.target.classList.contains("cell")){
+        return;
+    }
+    if(e.target.classList.contains("fixed")){
+        return;
+    }
     if (selectedCell) {
         selectedCell.classList.remove("selected");
     }
@@ -81,4 +88,6 @@ function isValid(board, row, col, num){
     return true;
 }
 let copy = board.map(row => [...row]);
-render();
+let puzzle = generator(45);
+board = puzzle.puzzle;
+render(puzzle.puzzle);

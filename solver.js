@@ -2,7 +2,7 @@ function shuffle(){
     let validValues = [1,2,3,4,5,6,7,8,9];
     for(let i = validValues.length-1; i >= 0; i--){
         const j = Math.floor(Math.random() * (i+1));
-        [validValues[i], validValues[j]] =[validValues[j], validValues[i]];
+        [validValues[i], validValues[j]] = [validValues[j], validValues[i]];
     }
     return validValues;
 }
