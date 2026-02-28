@@ -1,6 +1,14 @@
+const overlay = document.querySelector(".overlay");
+const start = document.querySelector("form");
 const outerGrid = document.querySelector(".outer-grid");
+const timer = document.querySelector("#time-elapsed");
+const replay = document.querySelector(".newgame");
+let level = 0;
+min = 6;
+sec = 59;
 let board = Array.from({length : 9}, () => Array(9).fill(0));
 function render(board) {
+    outerGrid.innerHTML = "";
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const cell = document.createElement("div");
@@ -87,7 +95,49 @@ function isValid(board, row, col, num){
     }
     return true;
 }
-let copy = board.map(row => [...row]);
-let puzzle = generator(45);
-board = puzzle.puzzle;
-render(puzzle.puzzle);
+function difficultyLevel(level){
+    if(level === "easy"){
+        return Math.floor(Math.random() * (35 -30) + 1) + 30;
+    }
+    else if(level === "medium"){
+        return Math.floor(Math.random() * (45 -40) + 1) + 40;
+    }
+    else if(level === "hard"){
+        return Math.floor(Math.random() * (60 -50) + 1) + 50;
+    }
+    return 40;
+}
+start.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = new FormData(start);
+    const mode = data.get("difficulty");
+    level = difficultyLevel(mode);
+
+    play(level);
+    overlay.classList.add("hide");
+    console.log(mode,level);
+})
+replay.addEventListener("click",()=>{
+    overlay.classList.remove("hide");
+})
+
+function play(level){
+    let copy = board.map(row => [...row]);
+    let puzzle = generator(level);
+    board = puzzle.puzzle;
+    render(puzzle.puzzle);
+
+    timeCount = setInterval(()=>{
+        if(min === 0 && sec === 0){
+            overlay.style.display = "flex";
+            clearInterval(timeCount);
+            currentScore = 10000;
+        }else if(sec === 0){
+            min--;
+            sec = 60;
+        }
+        sec--;
+        timer.textContent = `min:${min} sec:${sec}`;
+    },1000);
+}
